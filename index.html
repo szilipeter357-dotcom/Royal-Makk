@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROYAL MAKK — Cyber VIP Casino Platform</title>
+  <link rel="icon" type="image/png" href="assets/images/heart.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- CYBERPUNK ANIMÁLT HÁTTÉR-RÁCS -->
+  <div class="cyber-grid-bg"></div>
+  <div class="ambient-glow orb-1"></div>
+  <div class="ambient-glow orb-2"></div>
+
+  <!-- ÉLŐ HIGH-ROLLER HÍRFOLYAM -->
+  <div class="live-ticker-bar">
+    <div class="ticker-title"><span class="pulse-dot">●</span> LIVE HIGH-ROLLER FEED</div>
+    <div class="ticker-wrapper">
+      <div class="ticker-content" id="live-wins-ticker">
+        <!-- JS generálja dynamic -->
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo">
+        <span class="logo-icon">👑</span>
+        <span class="cyber-logo-text">ROYAL<span class="gold-neon">MAKK</span></span>
+      </div>
+
+      <!-- DINAMIKUS VIP PROGRESS BAR -->
+      <div class="vip-progress-box">
+        <div class="vip-header">
+          <span class="vip-label">VIP STATUS: <strong id="vip-rank-name" class="gold-neon">BRONZE I</strong></span>
+          <span class="vip-percent" id="vip-percent-text">0%</span>
+        </div>
+        <div class="vip-bar-bg">
+          <div class="vip-bar-fill" id="vip-bar-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <!-- AUDIO KAPCSOLÓ -->
+      <button class="audio-toggle-btn" id="audio-btn" onclick="toggleAudio()" title="Hangok ki/be">
+        🔊 <span id="audio-status-text">SOUND ON</span>
+      </button>
+
+      <div class="wallet-card neon-border">
+        <span class="wallet-label">FŐEGYENLEG</span>
+        <strong id="user-balance" class="wallet-amount">10 000 Ft</strong>
+      </div>
+
+      <button class="btn-deposit-glow" onclick="openModal('deposit-modal')">
+        <span>⚡ BEFIZETÉS</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO BANNER -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="cyber-tag"><span>🔥 NEXT-GEN SLOTS & LIVE SUITE</span></div>
+      <h1 class="glitch-text">ROYAL MAKK CASINO VIP</h1>
+      <p>Tapasztald meg a maximális nyerési esélyeket, instant kifizetéseket és a saját fejlesztésű <strong>Makk Slot VIP</strong> játékmotort!</p>
+      
+      <div class="jackpot-counter-box ultra-glow">
+        <span class="jackpot-title">⚡ PROGRESSZÍV MEGA JACKPOT ⚡</span>
+        <div class="jackpot-digit" id="jackpot-counter">24 891 450 Ft</div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="slot.html" class="btn-primary-cyber" onclick="playAudio('click')">JÁTÉK INDÍTÁSA ▶</a>
+        <button class="btn-secondary-cyber" onclick="openModal('wheel-modal'); playAudio('click');">🎡 NAPI SZERENCEKERÉK</button>
+        <button class="btn-secondary-cyber highlight" onclick="openModal('scratch-modal'); playAudio('click');">🎟️ VIP KAPARÓS SORSJEGY</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE STATS BAR -->
+  <section class="stats-bar glass-panel">
+    <div class="stat-item">
+      <span class="stat-num gold-glow">98.9%</span>
+      <span class="stat-desc">Átlagos RTP %</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num green-glow">&lt; 30 mp</span>
+      <span class="stat-desc">Instant Kifizetés</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num cyan-glow" id="active-players-count">3 412</span>
+      <span class="stat-desc">Aktív Játékos</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num gold-glow" id="vip-cashback-text">2%</span>
+      <span class="stat-desc">Aktív CashBack</span>
+    </div>
+  </section>
+
+  <!-- LOBBY MAIN -->
+  <main class="lobby-section">
+    <div class="filter-bar glass-panel">
+      <div class="categories">
+        <button class="cat-btn active" onclick="filterGames('all', this)">🔥 Összes</button>
+        <button class="cat-btn" onclick="filterGames('slots', this)">🎰 Slots</button>
+        <button class="cat-btn" onclick="filterGames('live', this)">🃏 Live Casino</button>
+        <button class="cat-btn" onclick="filterGames('instant', this)">⚡ Instant Win</button>
+      </div>
+      <div class="search-box">
+        <input type="text" id="search-input" onkeyup="searchGame()" placeholder="🔍 Játék keresése...">
+      </div>
+    </div>
+
+    <!-- GAMES GRID -->
+    <div class="games-grid" id="games-container">
+
+      <!-- 1. MAKK SLOT (KIEMELT PROFI CARD) -->
+      <div class="game-card featured-card neon-card" data-category="slots" data-name="makk slot extreme">
+        <div class="card-badge pulse-red">TOP #1</div>
+        <div class="card-thumb">
+          <img src="assets/images/apple.png" alt="Makk Slot" class="floating-cyber-img">
+        </div>
+        <div class="card-info">
+          <span class="provider-tag">MAKK STUDIOS VIP</span>
+          <h3>Makk Slot Extreme</h3>
+          <p class="game-tags">Cascade • Multiplier • Wilds</p>
+          <div class="card-footer">
+            <span class="rtp-text">RTP: <strong>98.2%</strong></span>
+            <a href="slot.html" class="btn-play-neon">PLAY NOW ▶</a>
+          </div>
+        </div>
+      </div>
+
+   <!-- 2. CYBER BLACKJACK PRO (JÁTSZHATÓ) -->
+<div class="game-card neon-card" data-category="live" data-name="cyber blackjack pro">
+  <div class="card-badge pulse-red">LIVE DEALER</div>
+  <div class="card-thumb"><span class="card-icon">🃏</span></div>
+  <div class="card-info">
+    <span class="provider-tag">MAKK LIVE VIP</span>
+    <h3>Cyber Blackjack Pro</h3>
+    <p class="game-tags">Table • Dealer AI • Instant Payout</p>
+    <div class="card-footer">
+      <span class="rtp-text">RTP: <strong>99.5%</strong></span>
+      <button class="btn-play-neon" onclick="openModal('bj-modal'); resetBJ();">JÁTÉK ▶</button>
+    </div>
+  </div>
+</div>
+
+      <!-- 3. NEON ROULETTE -->
+      <div class="game-card locked-card" data-category="live" data-name="neon roulette 3d">
+        <div class="card-badge gray">SOON</div>
+        <div class="card-thumb"><span class="card-icon">🎡</span></div>
+        <div class="card-info">
+          <span class="provider-tag">MAKK STUDIOS</span>
+          <h3>Neon Roulette 3D</h3>
+          <p class="game-tags">Wheel • 500x Multipliers</p>
+          <div class="card-footer">
+            <span class="rtp-text">RTP: <strong>97.3%</strong></span>
+            <button class="btn-play-neon disabled" disabled>LOCKED</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. CYBER SCRATCH -->
+      <div class="game-card" data-category="instant" data-name="cyber scratch card">
+        <div class="card-badge green">INSTANT</div>
+        <div class="card-thumb"><span class="card-icon">🎟️</span></div>
+        <div class="card-info">
+          <span class="provider-tag">MAKK INSTANT</span>
+          <h3>Cyber Scratch VIP</h3>
+          <p class="game-tags">Scratch • Instant Cash</p>
+          <div class="card-footer">
+            <span class="rtp-text">RTP: <strong>95.0%</strong></span>
+            <button class="btn-play-neon" onclick="openModal('scratch-modal')">KAPARÁS ▶</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL 1: BEFIZETÉS -->
+  <div id="deposit-modal" class="modal-backdrop">
+    <div class="modal-card glass-modal">
+      <button class="modal-close" onclick="closeModal('deposit-modal')">&times;</button>
+      <h2>⚡ BEFIZETÉSI KAPU</h2>
+      <p class="modal-sub">Válassz fizetési módot a demó egyenleged azonnali feltöltéséhez:</p>
+      
+      <div class="deposit-options">
+        <div class="dep-item neon-hover" onclick="processDeposit(10000)">
+          <div class="dep-left">
+            <span class="dep-icon">💳</span>
+            <div><strong>Bankkártya / Visa</strong><small>Instant jóváírás</small></div>
+          </div>
+          <span class="dep-amount">+10 000 Ft</span>
+        </div>
+
+        <div class="dep-item neon-hover" onclick="processDeposit(25000)">
+          <div class="dep-left">
+            <span class="dep-icon">🚀</span>
+            <div><strong>Revolut Instant</strong><small>0% kezelési költség</small></div>
+          </div>
+          <span class="dep-amount">+25 000 Ft</span>
+        </div>
+
+        <div class="dep-item neon-hover crypto" onclick="processDeposit(100000)">
+          <div class="dep-left">
+            <span class="dep-icon">⚡</span>
+            <div><strong>Crypto (BTC / USDT)</strong><small>+30% Extra VIP Bónusz!</small></div>
+          </div>
+          <span class="dep-amount">+100 000 Ft</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: NAPI SZERENCEKERÉK -->
+  <div id="wheel-modal" class="modal-backdrop">
+    <div class="modal-card glass-modal text-center">
+      <button class="modal-close" onclick="closeModal('wheel-modal')">&times;</button>
+      <h2>🎡 VIP SZERENCEKERÉK</h2>
+      <p class="modal-sub">Pörgesd meg a kereket az ingyenes napi VIP ingyen-kreditekért!</p>
+      
+      <div class="wheel-container">
+        <div class="wheel-pointer">▼</div>
+        <div class="wheel-spinner" id="wheel-spinner">🎡</div>
+      </div>
+
+      <button class="btn-primary-cyber" id="spin-btn" onclick="spinWheel()">PÖRGETÉS (FREE)</button>
+    </div>
+  </div>
+
+  <!-- MODAL 3: VIP KAPARÓS SORSJEGY -->
+  <div id="scratch-modal" class="modal-backdrop">
+    <div class="modal-card glass-modal text-center">
+      <button class="modal-close" onclick="closeModal('scratch-modal')">&times;</button>
+      <h2>🎟️ CYBER SCRATCH VIP</h2>
+      <p class="modal-sub">Kaparj le 3 egyforma szimbólumot a nyereményért!</p>
+
+      <div class="scratch-grid">
+        <div class="scratch-cell" onclick="revealCell(this, 0)">❓</div>
+        <div class="scratch-cell" onclick="revealCell(this, 1)">❓</div>
+        <div class="scratch-cell" onclick="revealCell(this, 2)">❓</div>
+      </div>
+
+      <button class="btn-primary-cyber" style="margin-top: 20px;" onclick="resetScratch()">ÚJ SORSJEGY (500 Ft)</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="logo">👑 ROYAL MAKK VIP</div>
+      <p>© 2026 Royal Makk Entertainment Group Ltd. Kizárólag szórakoztatási célokra (18+).</p>
+    </div>
+  </footer>
+
+  <script src="lscript.js"></script>
+  <!-- MODAL 4: CYBER BLACKJACK PRO -->
+<div id="bj-modal" class="modal-backdrop">
+  <div class="modal-card glass-modal bj-modal-card">
+    <button class="modal-close" onclick="closeModal('bj-modal')">&times;</button>
+    
+    <div class="bj-header">
+      <h2>🃏 CYBER BLACKJACK</h2>
+      <span class="bj-status-badge" id="bj-status-text">Tegyél tétet az indításhoz!</span>
+    </div>
+
+    <!-- OSZTÓ TERÜLET -->
+    <div class="bj-play-area">
+      <div class="bj-hand-box">
+        <div class="bj-hand-title">OSZTÓ (<span id="bj-dealer-score">0</span>)</div>
+        <div class="bj-cards" id="bj-dealer-cards">
+          <div class="card-placeholder">🂠</div>
+        </div>
+      </div>
+
+      <div class="bj-divider"></div>
+
+      <!-- JÁTÉKOS TERÜLET -->
+      <div class="bj-hand-box">
+        <div class="bj-hand-title">JÁTÉKOS (<span id="bj-player-score">0</span>)</div>
+        <div class="bj-cards" id="bj-player-cards">
+          <div class="card-placeholder">🂠</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TÉT MÁTRIX -->
+    <div class="bj-bet-controls" id="bj-bet-controls">
+      <span class="bj-bet-label">TÉT VÁLASZTÁS:</span>
+      <div class="bj-chip-group">
+        <button class="chip-btn active" onclick="setBJBet(500, this)">500 Ft</button>
+        <button class="chip-btn" onclick="setBJBet(1000, this)">1 000 Ft</button>
+        <button class="chip-btn" onclick="setBJBet(5000, this)">5 000 Ft</button>
+      </div>
+      <button class="btn-primary-cyber" style="margin-top: 10px;" onclick="startBJGame()">OSZTÁS 🎴</button>
+    </div>
+
+    <!-- AKCIÓ GOMBOK (JÁTÉK KÖZBEN) -->
+    <div class="bj-action-controls" id="bj-action-controls" style="display: none;">
+      <button class="btn-bj-act hit" onclick="hitBJ()">LAPHÚZÁS ➕</button>
+      <button class="btn-bj-act stand" onclick="standBJ()">MEGÁLLÁS ✋</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+

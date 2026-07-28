@@ -1,0 +1,1036 @@
+body {
+
+  background: url("assets/images/background.jpg") no-repeat center center fixed;
+
+  background-size: cover;
+
+  font-family: Arial, sans-serif;
+
+  text-align: center;
+
+  color: white;
+
+  margin: 0;
+
+  padding: 20px;
+
+}
+
+
+
+/* Üveghatású (Glassmorphism) játéktér panel */
+
+#board {
+
+  display: grid;
+
+  grid-template-columns: repeat(6, 75px);
+
+  grid-template-rows: repeat(5, 75px);
+
+  gap: 8px;
+
+  justify-content: center;
+
+  margin: 20px auto;
+
+  background: rgba(0, 0, 0, 0.4);
+
+  backdrop-filter: blur(8px);
+
+  padding: 15px;
+
+  border-radius: 20px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  width: fit-content;
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+}
+
+
+
+.cell {
+
+  width: 75px;
+
+  height: 75px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  border-radius: 12px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  overflow: hidden;
+
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.2);
+
+}
+
+
+
+.cell img {
+
+  width: 85%;
+
+  height: 85%;
+
+  object-fit: contain;
+
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.5));
+
+}
+
+
+
+#balance {
+
+  font-size: 24px;
+
+  font-weight: bold;
+
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+
+}
+
+
+
+/* Képes gomb formázása */
+
+#spin {
+
+  background: none;
+
+  border: none;
+
+  cursor: pointer;
+
+  outline: none;
+
+  transition: transform 0.1s ease;
+
+  margin-top: 10px;
+
+}
+
+
+
+#spin img {
+
+  height: 70px;
+
+  object-fit: contain;
+
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+
+}
+
+
+
+#spin:hover {
+
+  transform: scale(1.08);
+
+}
+
+
+
+#spin:active {
+
+  transform: scale(0.95);
+
+}
+
+
+
+/* Beeső / Pattogó animáció (Bounce effect) */
+
+.cell.fall {
+
+  animation: dropIn 0.35s ease-out forwards;
+
+}
+
+
+
+@keyframes dropIn {
+
+  0% {
+
+    transform: translateY(-80px) scale(0.8);
+
+    opacity: 0;
+
+  }
+
+  70% {
+
+    transform: translateY(8px) scale(1.05);
+
+    opacity: 1;
+
+  }
+
+  100% {
+
+    transform: translateY(0) scale(1);
+
+    opacity: 1;
+
+  }
+
+}
+
+
+
+/* Pukkanó animáció nyeréskor (Pop effect) */
+
+.cell.pop {
+
+  animation: popOut 0.35s ease-in forwards;
+
+}
+
+
+
+@keyframes popOut {
+
+  0% {
+
+    transform: scale(1);
+
+    filter: brightness(1);
+
+  }
+
+  50% {
+
+    transform: scale(1.3);
+
+    filter: brightness(1.8);
+
+  }
+
+  100% {
+
+    transform: scale(0);
+
+    opacity: 0;
+
+  }
+
+}
+
+
+
+/* Új gyümölcsök beesése Cascade-nél */
+
+.cell.cascade-fall {
+
+  animation: cascadeDrop 0.3s ease-out forwards;
+
+}
+
+
+
+@keyframes cascadeDrop {
+
+  0% {
+
+    transform: translateY(-50px);
+
+    opacity: 0;
+
+  }
+
+  100% {
+
+    transform: translateY(0);
+
+    opacity: 1;
+
+  }
+
+}
+
+
+
+/* Nyereménykijelző (Win Display) stílusa */
+
+#win-display {
+
+  height: 35px;
+
+  font-size: 26px;
+
+  font-weight: bold;
+
+  color: #ffd700; /* Arany szín */
+
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 2px 5px rgba(0, 0, 0, 0.9);
+
+  margin: 10px 0;
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  transform: scale(0.8);
+
+}
+
+
+
+#win-display.show {
+
+  opacity: 1;
+
+  transform: scale(1.1);
+
+}
+
+/* Bónusz értesítő és felugró ablak */
+
+#bonus-overlay {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.85);
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  z-index: 100;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: opacity 0.4s ease;
+
+}
+
+
+
+#bonus-overlay.active {
+
+  opacity: 1;
+
+  pointer-events: auto;
+
+}
+
+
+
+#bonus-overlay h2 {
+
+  font-size: 48px;
+
+  color: #ff4081;
+
+  text-shadow: 0 0 20px #ff4081, 0 0 10px #ffffff;
+
+  margin-bottom: 10px;
+
+}
+
+
+
+#bonus-overlay p {
+
+  font-size: 28px;
+
+  color: #ffd700;
+
+  margin-bottom: 25px;
+
+}
+
+
+
+#bonus-btn {
+
+  padding: 12px 30px;
+
+  font-size: 20px;
+
+  font-weight: bold;
+
+  background: linear-gradient(135deg, #ff4081, #ff80ab);
+
+  color: white;
+
+  border: none;
+
+  border-radius: 25px;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 15px rgba(255, 64, 129, 0.5);
+
+}
+
+
+
+/* Ingyenes pörgetések számlálója */
+
+#free-spins-counter {
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  color: #ff80ab;
+
+  margin-top: 5px;
+
+}
+
+
+
+/* Bomba aktiválási animáció (amikor megszorozza a nyereményt) */
+
+.cell.bomb-activate {
+
+  animation: bombPulse 0.6s ease-in-out infinite alternate;
+
+  z-index: 10;
+
+}
+
+
+
+@keyframes bombPulse {
+
+  0% {
+
+    transform: scale(1);
+
+    filter: drop-shadow(0 0 5px #ffeb3b);
+
+  }
+
+  100% {
+
+    transform: scale(1.3);
+
+    filter: drop-shadow(0 0 25px #ff9800) brightness(1.5);
+
+  }
+
+}
+
+
+
+/* Nyereménykijelző villanása szorzókor */
+
+#win-display.multiplier-pop {
+
+  animation: winPop 0.4s ease-out;
+
+}
+
+
+
+@keyframes winPop {
+
+  0% { transform: scale(1); }
+
+  50% { transform: scale(1.35); color: #ffeb3b; }
+
+  100% { transform: scale(1.1); }
+
+}
+
+
+
+/* Scatter nyalóka kigyulladás és pörgés bónusz indításkor */
+
+.cell.scatter-trigger img {
+
+  animation: scatterPopSpin 0.8s ease-in-out infinite alternate;
+
+  filter: drop-shadow(0 0 15px #ff4081) drop-shadow(0 0 25px #ffd700);
+
+}
+
+
+
+@keyframes scatterPopSpin {
+
+  0% {
+
+    transform: scale(1) rotate(0deg);
+
+  }
+
+  50% {
+
+    transform: scale(1.35) rotate(15deg);
+
+  }
+
+  100% {
+
+    transform: scale(1.2) rotate(-15deg);
+
+  }
+
+}
+
+
+
+/* Tétválasztó gombok stílusa */
+
+#controls {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 10px;
+
+}
+
+
+
+#bet-container {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  padding: 8px 20px;
+
+  border-radius: 20px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  font-size: 20px;
+
+}
+
+
+
+#bet-container button {
+
+  width: 35px;
+
+  height: 35px;
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  background: #ff4081;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  transition: transform 0.1s ease, background 0.2s;
+
+}
+
+
+
+#bet-container button:hover {
+
+  background: #ff80ab;
+
+  transform: scale(1.1);
+
+}
+
+
+
+#bet-container button:active {
+
+  transform: scale(0.95);
+
+}
+
+
+
+/* --- MENŐ KASZINÓS TÉTVÁLASZTÓ PANELS --- */
+
+#controls {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-top: 15px;
+
+}
+
+
+
+#bet-container {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  background: linear-gradient(135deg, rgba(20, 10, 40, 0.85), rgba(40, 15, 60, 0.9));
+
+  border: 2px solid #ffd700;
+
+  border-radius: 40px;
+
+  padding: 6px 12px;
+
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+
+  backdrop-filter: blur(8px);
+
+  min-width: 220px;
+
+  user-select: none;
+
+}
+
+
+
+#bet-info {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 0 15px;
+
+}
+
+
+
+.bet-label {
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  color: #ff80ab;
+
+  text-transform: uppercase;
+
+}
+
+
+
+.bet-val {
+
+  font-size: 22px;
+
+  font-weight: 900;
+
+  color: #ffffff;
+
+  text-shadow: 0 0 8px #ff4081, 0 2px 4px rgba(0,0,0,0.8);
+
+  font-family: 'Arial Black', sans-serif;
+
+}
+
+
+
+.bet-val small {
+
+  font-size: 12px;
+
+  color: #ffd700;
+
+}
+
+
+
+/* Gombok stílusa */
+
+#bet-container button {
+
+  width: 38px;
+
+  height: 38px;
+
+  border-radius: 50%;
+
+  border: 2px solid #ffffff;
+
+  background: linear-gradient(180deg, #ff4081, #c2185b);
+
+  color: #ffffff;
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  outline: none;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 2px 3px rgba(255, 255, 255, 0.4);
+
+  transition: all 0.15s ease-in-out;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+
+#bet-container button:hover:not(:disabled) {
+
+  transform: scale(1.12);
+
+  background: linear-gradient(180deg, #ff80ab, #e91e63);
+
+  box-shadow: 0 0 15px #ff4081, inset 0 2px 3px rgba(255, 255, 255, 0.6);
+
+}
+
+
+
+#bet-container button:active:not(:disabled) {
+
+  transform: scale(0.92);
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+
+}
+
+
+
+#bet-container button:disabled {
+
+  opacity: 0.35;
+
+  cursor: not-allowed;
+
+  filter: grayscale(80%);
+
+  border-color: #888;
+
+}
+
+/* --- SEBESSÉGVÁLASZTÓ GOMB STÍLUS --- */
+
+#speed-btn {
+
+  background: linear-gradient(135deg, rgba(30, 20, 60, 0.9), rgba(60, 20, 90, 0.9));
+
+  border: 1px solid #00e5ff;
+
+  color: #00e5ff;
+
+  padding: 8px 18px;
+
+  border-radius: 20px;
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+
+  transition: all 0.2s ease-in-out;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+}
+
+
+
+#speed-btn:hover {
+
+  background: linear-gradient(135deg, #00e5ff, #008aee);
+
+  color: #ffffff;
+
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.8);
+
+  transform: scale(1.05);
+
+}
+
+
+
+#speed-btn:active {
+
+  transform: scale(0.95);
+
+}
+
+
+
+#speed-btn:disabled {
+
+  opacity: 0.4;
+
+  cursor: not-allowed;
+
+  filter: grayscale(80%);
+
+}
+
+/* --- BIG WIN / JACKPOT OVERLAY --- */
+
+#bigwin-overlay {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100vw;
+
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.85);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  z-index: 1000;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: opacity 0.4s ease;
+
+  backdrop-filter: blur(5px);
+
+}
+
+
+
+#bigwin-overlay.active {
+
+  opacity: 1;
+
+  pointer-events: auto;
+
+}
+
+
+
+.bigwin-box {
+
+  background: radial-gradient(circle, #ffe600 0%, #ff6600 60%, #880000 100%);
+
+  border: 6px solid #fff;
+
+  border-radius: 30px;
+
+  padding: 40px 60px;
+
+  text-align: center;
+
+  box-shadow: 0 0 50px rgba(255, 215, 0, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.8);
+
+  transform: scale(0.3);
+
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+}
+
+
+
+#bigwin-overlay.active .bigwin-box {
+
+  transform: scale(1);
+
+  animation: pulseGold 1.5s infinite alternate ease-in-out;
+
+}
+
+
+
+#bigwin-title {
+
+  font-size: 48px;
+
+  color: #ffffff;
+
+  text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055, 3px 3px 0px #000;
+
+  margin: 0 0 15px 0;
+
+  text-transform: uppercase;
+
+  letter-spacing: 2px;
+
+}
+
+
+
+#bigwin-counter {
+
+  font-size: 56px;
+
+  font-weight: 900;
+
+  color: #fff;
+
+  text-shadow: 0 0 15px #ffea00, 4px 4px 0px #000;
+
+  font-family: 'Arial Black', sans-serif;
+
+}
+
+
+
+@keyframes pulseGold {
+
+  0% {
+
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.6);
+
+  }
+
+  100% {
+
+    box-shadow: 0 0 70px rgba(255, 230, 0, 1), inset 0 0 30px rgba(255, 255, 255, 0.9);
+
+    transform: scale(1.05);
+
+  }
+
+}
+
+/* --- VEZÉRLŐPANEL ELRENDEZÉS --- */
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+/* Felső sor: Sebesség + Tét egymás mellett */
+.options-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap; /* Mobil kijelzőn ha nem férne el, szépen alácsúszik */
+}
+
+#speed-btn {
+  background: linear-gradient(135deg, rgba(30, 20, 60, 0.9), rgba(60, 20, 90, 0.9));
+  border: 1px solid #00e5ff;
+  color: #00e5ff;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+  transition: all 0.2s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  height: 48px; /* Tét konténer magasságához igazítva */
+  display: flex;
+  align-items: center;
+}
+
+#speed-btn:hover {
+  background: linear-gradient(135deg, #00e5ff, #008aee);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.8);
+  transform: scale(1.05);
+}
+
+#speed-btn:active {
+  transform: scale(0.95);
+}
+
+#bet-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(20, 10, 40, 0.85), rgba(40, 15, 60, 0.9));
+  border: 2px solid #ffd700;
+  border-radius: 40px;
+  padding: 6px 12px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  min-width: 200px;
+  margin-top: 0; /* Megszüntetjük a felesleges margót */
+  user-select: none;
+}
+
+/* Alsó sor: SPIN gomb teljesen középen */
+#spin {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.1s ease;
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+#spin img {
+  height: 75px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+}

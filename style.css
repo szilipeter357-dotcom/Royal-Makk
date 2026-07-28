@@ -1,0 +1,282 @@
+:root {
+  --bg-dark: #030712;
+  --bg-glass: rgba(15, 23, 42, 0.85);
+  --neon-gold: #fbbf24;
+  --neon-gold-glow: rgba(251, 191, 36, 0.4);
+  --neon-green: #10b981;
+  --neon-cyan: #06b6d4;
+  --neon-red: #ef4444;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* CYBER BACKGROUND EFFECTS */
+.cyber-grid-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.ambient-glow {
+  position: fixed;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.25;
+}
+.orb-1 { top: -100px; left: -100px; background: #6366f1; }
+.orb-2 { bottom: -100px; right: -100px; background: var(--neon-gold); }
+
+/* LIVE TICKER */
+.live-ticker-bar {
+  background: #000;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  font-size: 0.8rem;
+  overflow: hidden;
+}
+.ticker-title {
+  color: var(--neon-red);
+  font-weight: 800;
+  font-family: 'Orbitron';
+  margin-right: 20px;
+  white-space: nowrap;
+  font-size: 0.75rem;
+}
+.pulse-dot { animation: blink 1s infinite; color: var(--neon-red); }
+.ticker-wrapper { flex: 1; overflow: hidden; }
+.ticker-content { display: flex; gap: 35px; }
+.win-item { color: var(--text-muted); white-space: nowrap; animation: fadeIn 0.4s ease-in; }
+.gold-neon { color: var(--neon-gold); text-shadow: 0 0 10px var(--neon-gold-glow); font-weight: 700; }
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 4%;
+  background: rgba(3, 7, 18, 0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-left, .nav-right { display: flex; align-items: center; gap: 20px; }
+
+.cyber-logo-text { font-family: 'Orbitron'; font-weight: 900; font-size: 1.4rem; letter-spacing: 1px; }
+
+/* VIP PROGRESS BAR */
+.vip-progress-box {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  min-width: 170px;
+}
+.vip-header { display: flex; justify-content: space-between; font-size: 0.65rem; font-family: 'Orbitron'; font-weight: 800; }
+.vip-percent { color: var(--neon-cyan); }
+.vip-bar-bg { width: 100%; height: 5px; background: #1e293b; border-radius: 10px; margin-top: 5px; overflow: hidden; }
+.vip-bar-fill { height: 100%; background: linear-gradient(90deg, var(--neon-cyan), var(--neon-gold)); box-shadow: 0 0 10px var(--neon-gold); transition: width 0.4s; }
+
+/* AUDIO BUTTON */
+.audio-toggle-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-family: 'Orbitron';
+  cursor: pointer;
+  transition: 0.2s;
+}
+.audio-toggle-btn:hover { border-color: var(--neon-gold); }
+
+/* WALLET & BUTTONS */
+.wallet-card {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid var(--neon-gold);
+  padding: 6px 16px;
+  border-radius: 10px;
+  text-align: right;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.15);
+}
+.wallet-label { display: block; font-size: 0.6rem; color: var(--text-muted); font-family: 'Orbitron'; letter-spacing: 1px; }
+.wallet-amount { color: var(--neon-green); font-size: 1.1rem; text-shadow: 0 0 10px rgba(16,185,129,0.4); }
+
+.btn-deposit-glow {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white; border: none; padding: 10px 20px; border-radius: 10px;
+  font-family: 'Orbitron'; font-weight: 800; cursor: pointer;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); transition: 0.2s;
+}
+.btn-deposit-glow:hover { transform: scale(1.05); }
+
+/* HERO SECTION */
+.hero-section { position: relative; padding: 60px 20px 40px; text-align: center; }
+.cyber-tag { display: inline-block; background: rgba(251, 191, 36, 0.1); border: 1px solid var(--neon-gold); padding: 4px 14px; border-radius: 20px; font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-gold); margin-bottom: 15px; }
+
+.glitch-text { font-family: 'Orbitron'; font-size: 3.2rem; font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 30px rgba(255,255,255,0.2); }
+.hero-content p { color: var(--text-muted); max-width: 650px; margin: 10px auto 25px; line-height: 1.6; }
+
+.ultra-glow {
+  background: var(--bg-glass); border: 1px solid var(--neon-gold);
+  padding: 20px 40px; border-radius: 20px; display: inline-block; margin-bottom: 30px;
+  box-shadow: 0 0 40px var(--neon-gold-glow);
+}
+.jackpot-title { font-family: 'Orbitron'; font-size: 0.8rem; color: var(--neon-red); font-weight: 800; letter-spacing: 1px; }
+.jackpot-digit { font-family: 'Orbitron'; font-size: 2.8rem; color: var(--neon-gold); font-weight: 900; text-shadow: 0 0 20px var(--neon-gold); margin-top: 5px; }
+
+.hero-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+
+.btn-primary-cyber {
+  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  color: #000; text-decoration: none; font-family: 'Orbitron'; font-weight: 900;
+  padding: 14px 28px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 25px var(--neon-gold-glow); transition: 0.2s; border: none; cursor: pointer;
+}
+.btn-primary-cyber:hover { transform: scale(1.05); }
+
+.btn-secondary-cyber {
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+  color: white; font-family: 'Orbitron'; font-weight: 800; padding: 14px 24px;
+  border-radius: 12px; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s;
+}
+.btn-secondary-cyber:hover { border-color: var(--neon-gold); transform: translateY(-2px); }
+.btn-secondary-cyber.highlight { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+
+/* STATS BAR */
+.glass-panel { background: var(--bg-glass); border: 1px solid var(--border-color); backdrop-filter: blur(16px); border-radius: 16px; }
+.stats-bar { display: flex; justify-content: space-around; max-width: 950px; margin: 0 auto 40px; padding: 20px; }
+.stat-item { text-align: center; }
+.stat-num { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; display: block; }
+.stat-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+.gold-glow { color: var(--neon-gold); text-shadow: 0 0 10px var(--neon-gold); }
+.green-glow { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
+.cyan-glow { color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
+
+/* LOBBY & CARDS */
+.lobby-section { max-width: 1200px; margin: 0 auto; padding: 0 20px 60px; flex: 1; }
+.filter-bar { display: flex; justify-content: space-between; padding: 15px 20px; margin-bottom: 30px; gap: 15px; flex-wrap: wrap; }
+.cat-btn { background: none; border: none; color: var(--text-muted); font-family: 'Orbitron'; font-size: 0.8rem; padding: 8px 16px; cursor: pointer; border-radius: 8px; transition: 0.2s; }
+.cat-btn.active, .cat-btn:hover { background: var(--neon-gold); color: #000; font-weight: 800; }
+
+.search-box input { background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: white; padding: 10px 16px; border-radius: 8px; outline: none; width: 220px; }
+
+.games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+
+.game-card { background: var(--bg-glass); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; position: relative; }
+.game-card:hover { transform: translateY(-8px); border-color: var(--neon-gold); box-shadow: 0 0 30px rgba(251, 191, 36, 0.2); }
+
+.card-badge { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; color: white; font-family: 'Orbitron'; z-index: 5; }
+.pulse-red { background: var(--neon-red); box-shadow: 0 0 15px rgba(239,68,68,0.8); }
+.gray { background: #475569; }
+.green { background: var(--neon-green); }
+
+.card-thumb { height: 170px; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, rgba(251,191,36,0.1) 0%, transparent 70%); }
+.floating-cyber-img { max-height: 100px; filter: drop-shadow(0 0 20px var(--neon-gold-glow)); animation: float 3s ease-in-out infinite; }
+.card-icon { font-size: 3.8rem; opacity: 0.5; }
+
+.card-info { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+.provider-tag { font-size: 0.65rem; color: var(--neon-gold); font-family: 'Orbitron'; font-weight: 700; }
+.card-info h3 { font-size: 1.1rem; margin: 4px 0; }
+.game-tags { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 15px; }
+
+.card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+.rtp-text { font-size: 0.75rem; color: var(--text-muted); }
+
+.btn-play-neon { background: var(--neon-gold); color: #000; text-decoration: none; font-family: 'Orbitron'; font-weight: 900; padding: 8px 16px; border-radius: 8px; font-size: 0.75rem; border: none; cursor: pointer; }
+.btn-play-neon.disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+
+/* MODALS */
+.modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); justify-content: center; align-items: center; z-index: 1000; }
+.glass-modal { background: rgba(15, 23, 42, 0.95); border: 1px solid var(--neon-gold); border-radius: 20px; padding: 30px; width: 90%; max-width: 440px; position: relative; box-shadow: 0 0 40px var(--neon-gold-glow); }
+.modal-close { position: absolute; top: 15px; right: 20px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+.text-center { text-align: center; }
+
+.deposit-options { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.dep-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+.dep-item:hover { border-color: var(--neon-green); background: rgba(16, 185, 129, 0.05); }
+.dep-left { display: flex; align-items: center; gap: 12px; text-align: left; }
+.dep-icon { font-size: 1.5rem; }
+.dep-amount { color: var(--neon-green); font-weight: 800; font-family: 'Orbitron'; }
+
+/* WHEEL & SCRATCH MINIGAMES */
+.wheel-container { position: relative; margin: 25px auto; width: 130px; height: 130px; }
+.wheel-pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; color: var(--neon-red); z-index: 10; }
+.wheel-spinner { font-size: 6.5rem; transition: transform 3.5s cubic-bezier(0.15, 0.9, 0.15, 1); }
+
+.scratch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+.scratch-cell { background: #1e293b; border: 1px solid var(--neon-cyan); height: 80px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: 0.2s; }
+.scratch-cell.revealed { background: rgba(6, 182, 212, 0.1); border-color: var(--neon-gold); }
+
+footer { text-align: center; padding: 30px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.8rem; }
+
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+
+
+/* BLACKJACK ELEMEK */
+.bj-modal-card { max-width: 440px !important; text-align: center; }
+.bj-header { margin-bottom: 15px; }
+.bj-status-badge { display: inline-block; background: rgba(6, 182, 212, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); font-size: 0.7rem; font-family: 'Orbitron'; padding: 4px 10px; border-radius: 12px; margin-top: 5px; }
+
+.bj-play-area { background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 15px; }
+.bj-hand-box { min-height: 85px; }
+.bj-hand-title { font-size: 0.7rem; font-family: 'Orbitron'; color: var(--text-muted); margin-bottom: 8px; text-align: left; }
+.bj-cards { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+
+.bj-card-item {
+  background: #f8fafc; color: #0f172a; font-family: 'Orbitron'; font-weight: 800; font-size: 1.1rem;
+  width: 45px; height: 62px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5); border: 1px solid #cbd5e1; animation: cardPop 0.25s ease-out;
+}
+.bj-card-item.red { color: #dc2626; }
+.card-placeholder { font-size: 2rem; opacity: 0.3; }
+
+.bj-divider { height: 1px; background: var(--border-color); margin: 10px 0; }
+
+.bj-bet-controls { display: flex; flex-direction: column; gap: 8px; }
+.bj-bet-label { font-size: 0.65rem; color: var(--text-muted); font-family: 'Orbitron'; }
+.bj-chip-group { display: flex; justify-content: center; gap: 8px; }
+.chip-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); color: white; padding: 8px 12px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.75rem; cursor: pointer; }
+.chip-btn.active { border-color: var(--neon-gold); background: rgba(251, 191, 36, 0.15); color: var(--neon-gold); font-weight: 800; }
+
+.bj-action-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.btn-bj-act { padding: 12px; border-radius: 8px; font-family: 'Orbitron'; font-weight: 800; border: none; cursor: pointer; font-size: 0.8rem; }
+.btn-bj-act.hit { background: linear-gradient(135deg, #06b6d4, #0891b2); color: white; }
+.btn-bj-act.stand { background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; }
+
+@keyframes cardPop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }

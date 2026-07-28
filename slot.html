@@ -1,0 +1,110 @@
+<!-- Cseréld le vagy egészítsd ki a header-t a slot.html-ben: -->
+<header style="display: flex; justify-content: space-between; padding: 10px 20px;">
+  <a href="index.html" style="color: #fbbf24; text-decoration: none; font-weight: bold;">◀ VISSZA A LOBBY-BA</a>
+</header>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Makk Slot</title>
+  
+  <!-- FAVICON (Kis ikon a böngésző fülön) -->
+  <link rel="icon" type="image/png" href="assets/images/heart.png">
+
+  <link rel="stylesheet" href="slot-style.css">
+</head>
+
+<body>
+
+
+
+  <h1>Candy Cascade</h1>
+
+
+
+  <div id="balance">
+
+    Egyenleg: <span id="money">1000000</span> Ft
+
+  </div>
+
+
+
+  <div id="free-spins-counter"></div>
+
+
+
+  <div id="win-display"></div>
+
+
+
+  <div id="board"></div>
+
+
+
+  <div id="controls">
+    <!-- Felső sor: Sebesség és Tét egymás mellett -->
+    <div class="options-row">
+      <button id="speed-btn">⚡ Sebesség: Normal (1x)</button>
+
+      <div id="bet-container">
+        <button id="bet-minus" aria-label="Tét csökkentése">−</button>
+        <div id="bet-info">
+          <span class="bet-label">TÉT</span>
+          <span class="bet-val"><span id="bet-amount">100</span> <small>FT</small></span>
+        </div>
+        <button id="bet-plus" aria-label="Tét növelése">+</button>
+      </div>
+    </div>
+
+    <!-- Alsó sor: Spin gomb középen -->
+    <button id="spin">
+      <img src="assets/images/spinbutton.png" alt="SPIN">
+    </button>
+  </div>
+
+
+
+    <button id="spin">
+
+
+    </button>
+
+  </div>
+
+
+
+  <!-- Bónusz Felugró Ablak -->
+
+  <div id="bonus-overlay">
+
+    <h2 id="bonus-title">BÓNUSZ JÁTÉK!</h2>
+
+    <p id="bonus-text">10 Ingyenes Pörgetést nyertél!</p>
+
+    <button id="bonus-btn">INDÍTÁS</button>
+
+  </div>
+
+
+
+  <!-- ÚJ: BIG WIN / JACKPOT Felugró Ablak -->
+
+  <div id="bigwin-overlay">
+
+    <div class="bigwin-box">
+
+      <h2 id="bigwin-title">NAGY KAPÁS!</h2>
+
+      <div id="bigwin-counter">0 FT</div>
+
+    </div>
+
+  </div>
+
+
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
